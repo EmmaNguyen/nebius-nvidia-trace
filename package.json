@@ -1,0 +1,27 @@
+{
+  "name": "traceback-ai-incident-investigator",
+  "version": "1.0.0",
+  "description": "Evidence-grounded incident investigation for AI agent runs. Every finding cites the exact trace line, checked against the source. Runs NVIDIA Nemotron on Nebius Token Factory.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "ai-agents",
+    "agent-safety",
+    "incident-investigation",
+    "nemotron",
+    "nvidia",
+    "nebius",
+    "token-factory",
+    "openshell"
+  ],
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "eval": "node eval/local-smoke.mjs",
+    "eval:live": "node eval/live-inference.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

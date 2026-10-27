@@ -1,0 +1,9 @@
+.env
+.DS_Store
+node_modules/
+npm-debug.log*
+
+# local-only working files (kept on disk, not published)
+submission/
+docs/keynote-*
+docs/sandbox-escape-incidents.md

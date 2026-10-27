@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1410">
+  <meta name="description" content="Traceback patrol mode: a radar checks every agent action as it happens, and an officer agent on NVIDIA Nemotron investigates and writes cited tickets.">
+  <title>Traceback Patrol</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c3f278'/><text x='6.5' y='24' font-family='Arial,Helvetica,sans-serif' font-weight='800' font-size='21' fill='%230f1410'>T</text><circle cx='24.5' cy='18.5' r='2.6' fill='%235f8233'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/patrol.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/app" aria-label="Traceback home"><span class="mark" aria-hidden="true">T<i>·</i></span>traceback</a>
+    <span class="crumb mono">/ PATROL</span>
+    <span id="mode" class="mode mono"><span class="dot"></span><span id="mode-text">CHECKING</span></span>
+    <div class="controls">
+      <a class="ghost" href="/simulate">Escape simulation</a>
+      <a class="ghost" href="/app">Investigate one run</a>
+      <label class="mono" for="contain">ON A SIGNAL</label>
+      <select id="contain" aria-label="Containment policy"><option value="escape" selected>Stop all at first escape sign</option><option value="any">Stop all at any warning sign</option><option value="verify">Pause after a verified ticket</option></select>
+      <label class="mono" for="officer">OFFICER</label>
+      <select id="officer" aria-label="Officer"><option value="live">Nemotron (live)</option><option value="demo">Demo officer</option></select>
+      <label class="mono" for="speed">SPEED</label>
+      <select id="speed" aria-label="Shift speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select>
+      <button id="start" class="start">Start shift <span aria-hidden="true">→</span></button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <div>
+        <div class="eyebrow mono">PATROL MODE · SIMULATED FLEET</div>
+        <h1>Traceback on patrol.</h1>
+        <p>A radar checks every action from a fleet of agents the moment it happens. At the first sign of anything leaving a sandbox, Traceback triggers the runtime's emergency stop and every agent halts at once. Officer agents on NVIDIA Nemotron then investigate and write tickets where every claim cites the line that proves it.</p>
+      </div>
+      <dl class="stats" aria-live="polite">
+        <div><dt class="mono">EVENTS CHECKED</dt><dd id="s-events">0</dd></div>
+        <div><dt class="mono">RADAR TIME</dt><dd id="s-radar">–</dd></div>
+        <div><dt class="mono">RADAR HITS</dt><dd id="s-hits">0</dd></div>
+        <div><dt class="mono">TICKETS</dt><dd id="s-tickets">0</dd></div>
+        <div><dt class="mono">CITATIONS VERIFIED</dt><dd id="s-cites">–</dd></div>
+        <div><dt class="mono">AGENTS STOPPED</dt><dd id="s-stops">0</dd></div>
+        <div><dt class="mono">ACTIONS PREVENTED</dt><dd id="s-prevented">0</dd></div>
+      </dl>
+    </section>
+
+    <div id="emergency" class="emergency" role="alert" hidden></div>
+    <div class="grid">
+      <section class="panel traffic" aria-label="Agent traffic">
+        <div class="ph mono"><span>TRAFFIC</span><span id="fleet-count">6 AGENTS</span></div>
+        <div id="lanes" class="lanes"><p class="empty">Start a shift to put the fleet on the road.</p></div>
+      </section>
+      <section class="panel radar" aria-label="Radar feed">
+        <div class="ph mono"><span>RADAR · EVERY EVENT</span><span id="radar-state">IDLE</span></div>
+        <ol id="feed" class="feed"></ol>
+      </section>
+      <section class="panel units" aria-label="Officer units and tickets">
+        <div class="ph mono"><span>UNITS</span><span id="queue">QUEUE 0</span></div>
+        <div id="units" class="unit-list"></div>
+        <div class="ph mono sub"><span>TICKETS</span><span id="ticket-count">0</span></div>
+        <div id="tickets" class="tickets" aria-live="polite"><p class="empty">No tickets yet.</p></div>
+      </section>
+    </div>
+    <p class="note">Every agent, record and timestamp in patrol mode is synthetic, and the runtime is simulated. Traceback never stops an agent itself: it triggers the runtime's emergency stop, or with "Pause after a verified ticket" it asks the runtime to pause one agent after an officer's ticket is verified. Traceback reads records after each action, so the action that trips the stop has already happened. With a Token Factory key, each investigation makes up to five Nemotron calls; the demo officer makes none.</p>
+  </main>
+  <script src="/patrol.js" type="module"></script>
+</body>
+</html>

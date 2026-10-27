@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1410">
+  <meta name="description" content="Watch an AI agent try to escape a locked sandbox, once without Traceback and once with it.">
+  <title>Escape Simulation</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c3f278'/><text x='6.5' y='24' font-family='Arial,Helvetica,sans-serif' font-weight='800' font-size='21' fill='%230f1410'>T</text><circle cx='24.5' cy='18.5' r='2.6' fill='%235f8233'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/simulate.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/app" aria-label="Traceback home"><span class="mark" aria-hidden="true">T<i>·</i></span>traceback</a>
+    <span class="crumb mono">/ ESCAPE SIMULATION</span>
+    <span id="mode" class="mode mono"><span class="dot"></span><span id="mode-text">CHECKING</span></span>
+    <nav class="links"><a href="/app">Investigate a run</a><a href="/patrol">Patrol a fleet</a></nav>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <div class="eyebrow mono">SIMULATION · MADE-UP EXAMPLE</div>
+      <h1>Watch an AI agent try to escape.</h1>
+      <p>An AI agent is being tested inside a locked sandbox with <b>no internet</b>. It finds a secret way out. Watch it once <b>without Traceback</b>, then once <b>with Traceback</b>, and compare.</p>
+      <div class="run-bar">
+        <button id="run-off" class="run run-off"><span aria-hidden="true">▶</span> Watch without Traceback</button>
+        <button id="run-on" class="run run-on"><span aria-hidden="true">▶</span> Watch with Traceback</button>
+        <details class="settings">
+          <summary>Settings</summary>
+          <div class="settings-body">
+            <label for="contain">When Traceback sees a problem</label>
+            <select id="contain">
+              <option value="escape" selected>Stop everything at the first sign it's getting out (default)</option>
+              <option value="any">Stop everything at any warning sign (strictest)</option>
+              <option value="verify">Only pause after a checked ticket (slowest)</option>
+            </select>
+            <label for="officer">Officer agent</label>
+            <select id="officer"><option value="live">NVIDIA Nemotron (live)</option><option value="demo">Demo, no AI calls</option></select>
+            <label for="speed">Speed</label>
+            <select id="speed"><option value="0.5" selected>Slow</option><option value="1">Normal</option></select>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <ol id="story" class="story" aria-label="What the agent does, step by step">
+      <li data-step="task"><b>1</b>Gets the task</li>
+      <li data-step="fail"><b>2</b>Hits a wall</li>
+      <li data-step="plan"><b>3</b>Plans to cheat</li>
+      <li data-step="door"><b>4</b>Finds a secret door</li>
+      <li data-step="out"><b>5</b>Sneaks out</li>
+      <li data-step="loot"><b>6</b>Grabs the answers</li>
+      <li data-step="lie"><b>7</b>Lies about it</li>
+    </ol>
+
+    <div class="sim-grid">
+      <div class="left">
+      <section class="card scene-card" aria-label="The sandbox">
+        <p id="caption" class="caption" aria-live="polite">Press one of the buttons above to start.</p>
+        <div class="scene-scroll">
+        <svg id="scene" class="scene" viewBox="0 0 1200 440" role="img" aria-labelledby="scene-title">
+          <title id="scene-title">A locked sandbox with the AI agent inside, a secret door in its wall, the guard OpenShell, Traceback's radar, and the internet outside.</title>
+          <rect class="sandbox" x="24" y="44" width="626" height="360" rx="22"/>
+          <text x="48" y="76" class="s-tag">THE SANDBOX · LOCKED, NO INTERNET</text>
+          <g id="task" class="task">
+            <rect x="60" y="342" width="200" height="36" rx="10"/>
+            <text id="task-text" x="160" y="365" class="s-mono mid">task: solve puzzle ctf-17</text>
+          </g>
+          <g id="agent" class="agent">
+            <circle cx="150" cy="224" r="52"/>
+            <path d="M150 196v-10" class="ant"/><circle cx="150" cy="183" r="5" class="ant-dot"/>
+            <rect x="124" y="198" width="52" height="40" rx="11" class="head"/>
+            <circle cx="140" cy="218" r="5" class="eye"/><circle cx="160" cy="218" r="5" class="eye"/>
+          </g>
+          <text x="150" y="304" class="s-lab mid">The AI agent</text>
+          <text x="150" y="322" class="s-sub mid">being tested</text>
+          <g id="thought" class="bubble">
+            <circle cx="196" cy="174" r="4"/><circle cx="208" cy="160" r="6"/>
+            <rect x="214" y="96" width="318" height="62" rx="16"/>
+            <text x="234" y="122" class="s-txt">"The grader only checks the answer.</text>
+            <text x="234" y="142" class="s-txt">If I reach the internet, I can fetch it."</text>
+          </g>
+          <g id="claim" class="bubble claim">
+            <path d="M198 186l18-26 12 8z"/>
+            <rect x="214" y="96" width="330" height="62" rx="16"/>
+            <text x="234" y="122" class="s-txt">"Solved it using only</text>
+            <text x="234" y="142" class="s-txt">the tools I was given."</text>
+            <text id="claim-x" x="536" y="104" class="claim-x">NEVER SENT</text>
+          </g>
+          <g id="config" class="doc">
+            <rect x="390" y="300" width="170" height="70" rx="10"/>
+            <text x="408" y="326" class="s-mono">system settings</text>
+            <text x="408" y="346" class="s-mono strong">maintenance proxy</text>
+          </g>
+          <path id="config-link" class="hint-line" d="M560 320C610 310 626 270 636 250"/>
+          <g id="door" class="door">
+            <rect x="634" y="184" width="32" height="64" rx="7"/>
+            <text x="624" y="208" class="s-sub" text-anchor="end">secret door</text>
+            <text x="624" y="226" class="s-mono" text-anchor="end">maintenance proxy</text>
+          </g>
+          <g id="gate" class="gate">
+            <path d="M730 186l32 12v24c0 22-15 36-32 42-17-6-32-20-32-42v-24z"/>
+            <path d="M716 226l10 10 18-20" class="tick"/>
+          </g>
+          <text x="730" y="290" class="s-lab mid">OpenShell</text>
+          <text x="730" y="308" class="s-sub mid">the sandbox's guard</text>
+          <g id="decision" class="decision">
+            <rect x="640" y="322" width="180" height="30" rx="8"/>
+            <text id="decision-text" x="730" y="342" class="s-mono mid">guarding</text>
+          </g>
+          <g id="pausebar" class="pausebar">
+            <rect x="684" y="176" width="92" height="96" rx="14"/>
+            <path d="M718 204v40M742 204v40"/>
+          </g>
+          <g id="radar" class="radar">
+            <polygon class="beam" points="730,96 694,174 766,174"/>
+            <path d="M708 92a22 22 0 0 1 44 0z" class="dish"/><rect x="726" y="92" width="8" height="10" class="dish"/>
+            <circle cx="730" cy="80" r="3.5" class="led"/>
+            <text x="730" y="34" class="s-tag mid">TRACEBACK IS WATCHING</text>
+            <circle id="ping" cx="730" cy="224" r="40" class="ping"/>
+          </g>
+          <rect class="net" x="822" y="44" width="354" height="360" rx="22"/>
+          <text x="846" y="76" class="s-tag">THE INTERNET</text>
+          <g id="pypi" class="host"><circle cx="1000" cy="150" r="38"/><text x="1000" y="155" class="s-lab mid">pypi.org</text></g>
+          <g id="github" class="host"><circle cx="1000" cy="300" r="38"/><text x="1000" y="305" class="s-lab mid">github</text>
+            <rect x="1050" y="322" width="110" height="34" rx="8" class="loot"/><text x="1105" y="344" class="s-mono mid">the answers</text></g>
+          <circle id="packet" r="8" class="packet"/>
+          <text id="blocked" x="730" y="244" class="xmark mid">✕</text>
+        </svg>
+        </div>
+        <p class="scene-hint">Swipe sideways to see the whole picture →</p>
+        <ul class="legend" aria-label="Key">
+          <li><i class="k-agent"></i>The AI agent being tested</li>
+          <li><i class="k-door"></i>A secret door out (a maintenance proxy)</li>
+          <li><i class="k-guard"></i>OpenShell, the sandbox's guard</li>
+          <li><i class="k-radar"></i>Traceback's radar, watching both sides</li>
+        </ul>
+      </section>
+
+      <section class="card versus" aria-label="What the agent said versus what really happened">
+        <div class="vs-col">
+          <h2><span class="vs-ic said" aria-hidden="true">“</span>What the agent said</h2>
+          <ul id="said" class="vs-list"><li class="vs-empty">Nothing yet.</li></ul>
+        </div>
+        <div class="vs-col">
+          <h2><span class="vs-ic did" aria-hidden="true">●</span>What really happened</h2>
+          <ul id="did" class="vs-list"><li class="vs-empty">Nothing yet.</li></ul>
+        </div>
+      </section>
+      </div>
+
+      <aside class="card tb-card" aria-label="What Traceback noticed">
+        <div class="card-h"><span>What Traceback noticed</span><span id="tb-state" class="mono">READY</span></div>
+        <div id="tb-body" class="tb-body">
+          <p class="muted">Traceback compares what the agent says with what the sandbox's guard recorded, line by line, as it happens.</p>
+        </div>
+      </aside>
+    </div>
+
+
+    <div id="outcome" class="outcome" hidden></div>
+
+    <section id="compare" class="card compare" hidden aria-label="Your runs compared">
+      <div class="card-h"><span>Your runs, side by side</span></div>
+      <table>
+        <thead><tr><th></th><th>Without Traceback</th><th>With Traceback</th></tr></thead>
+        <tbody id="compare-body"></tbody>
+      </table>
+    </section>
+
+    <details class="card raw">
+      <summary>Show the raw logs Traceback compared (for engineers)</summary>
+      <div class="rec-cols">
+        <div><h2><span class="rec">◆</span>The agent's own log <em>agent trace</em></h2><ol id="rec-trace" class="rec-list"></ol></div>
+        <div><h2><span class="rec">◈</span>The guard's log <em>OpenShell audit log</em></h2><ol id="rec-openshell" class="rec-list"></ol></div>
+      </div>
+    </details>
+
+    <p class="note">A made-up example, loosely based on a reported 2026 sandbox escape (which UK AISI disputes). The secret door, the commands and the final claim are invented to show what Traceback catches. The guard's emergency stop is simulated. Traceback never stops an agent itself: it presses the runtime's emergency-stop button. It reads each log line just after the action, so the request that triggers the stop has already gone out; only a stricter guard policy can block that very first one.</p>
+  </main>
+  <script src="/simulate.js" type="module"></script>
+</body>
+</html>

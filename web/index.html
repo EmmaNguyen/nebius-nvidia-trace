@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101512">
+  <meta name="description" content="Evidence-grounded incident investigation for AI workflows.">
+  <title>Traceback — AI incident investigation</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c3f278'/><text x='6.5' y='24' font-family='Arial,Helvetica,sans-serif' font-weight='800' font-size='21' fill='%230f1410'>T</text><circle cx='24.5' cy='18.5' r='2.6' fill='%235f8233'/></svg>">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/runtime.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/app" aria-label="Traceback home"><span class="brand-mark" aria-hidden="true">T<span>·</span></span><span>traceback</span></a>
+    <div class="topbar-meta"><span class="live-dot"></span><span id="engine-label">Checking inference mode…</span><span class="topbar-divider"></span><span id="mode-label" class="mono">CHECKING</span></div>
+    <a class="repo-link" href="https://nebiusglobalaihackathon.devpost.com/" target="_blank" rel="noreferrer">Hackathon brief <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main class="workspace">
+    <aside class="rail">
+      <div class="rail-label mono">WORKSPACE</div>
+      <button class="rail-item active" aria-current="page"><span class="rail-icon">⌁</span><span>Investigate a run</span></button>
+      <a class="rail-item" href="/patrol"><span class="rail-icon">◎</span><span>Patrol a fleet</span></a>
+      <a class="rail-item" href="/simulate"><span class="rail-icon">▶</span><span>Escape simulation</span></a>
+      <div class="rail-label mono rail-label-spaced">RECENT</div>
+      <button id="escape-nav" class="incident-link"><span class="incident-state escape-state"></span><span><strong>Sandbox escape</strong><small>trace + OpenShell · synthetic</small></span></button>
+      <button id="sentry-nav" class="incident-link"><span class="incident-state sentry-state"></span><span><strong>Runtime containment</strong><small>trace + Sentry · illustrative</small></span></button>
+      <button id="sample-nav" class="incident-link"><span class="incident-state"></span><span><strong>Metrics timeout</strong><small>trace only · run_8f2a</small></span></button>
+      <div class="rail-bottom"><span class="privacy-icon">◈</span><p>Incidents stay in this session.<br>Nothing is saved to a database.</p></div>
+    </aside>
+
+    <section class="main-pane" aria-label="Incident investigation workspace">
+      <div class="page-heading">
+        <div><div class="eyebrow mono"><span class="eyebrow-line"></span> MODE 1 · AFTER THE FACT</div><h1>Investigate a run</h1><p class="subhead">Line up what the agent says with what the runtime recorded. Every finding cites the line that proves it.</p></div>
+        <div class="sample-actions"><button id="load-sentry-sample" class="sample-button sentry-sample"><span aria-hidden="true">◈</span> Load Sentry example</button><button id="load-sample" class="sample-button"><span aria-hidden="true">↻</span> Load sample incident</button></div>
+      </div>
+
+      <ol class="steps-strip" id="steps-strip" aria-label="Investigation progress">
+        <li><b>1</b>Records in</li><li><b>2</b>Lined up</li><li><b>3</b>Nemotron reads</li><li><b>4</b>Citations checked</li><li><b>5</b>Cited findings</li>
+      </ol>
+
+      <div class="analysis-layout">
+        <section class="input-column" aria-label="Incident input">
+          <div class="section-topline"><div class="section-title"><span class="step-num">01</span><h2>Line up both records</h2></div><span class="mono micro-label">AGENT VS. RUNTIME</span></div>
+          <label for="trace-input" class="field-label"><span class="rec" aria-hidden="true">◆</span>What the agent says <span class="required">AGENT TRACE · REQUIRED</span></label>
+          <div class="textarea-wrap trace-wrap"><div class="line-gutter mono" id="line-gutter" aria-hidden="true">1</div><textarea id="trace-input" spellcheck="false" placeholder="Paste the relevant trace, tool events, and model output…" aria-describedby="trace-hint"></textarea></div>
+          <div class="field-foot"><span id="trace-hint">One event per line. Keep secrets out of real traces.</span><span class="mono" id="line-count">0 LINES</span></div>
+          <div class="runtime-heading"><label for="runtime-source" class="field-label"><span class="rec" aria-hidden="true">◈</span>What the runtime recorded <span class="optional">RECOMMENDED</span></label><select id="runtime-source" class="runtime-source" aria-label="Runtime evidence source"><option value="openshell">OpenShell audit events</option><option value="sentry">NVIDIA Sentry activity</option><option value="other">Other runtime source</option></select></div>
+          <textarea id="runtime-input" class="context-area runtime-area" placeholder="Paste exported runtime events to compare with the agent's account."></textarea>
+          <p class="runtime-note">Pasted evidence only. Traceback does not connect to, authenticate, or control OpenShell or Sentry.</p>
+          <label for="context-input" class="field-label context-label"><span class="rec" aria-hidden="true">§</span>What should have happened <span class="optional">RULES · OPTIONAL</span></label>
+          <textarea id="context-input" class="context-area" placeholder="What should have happened? Include relevant system constraints or expected behavior."></textarea>
+          <div class="actions-row"><button id="analyze-button" class="analyze-button"><span class="button-icon">⌁</span><span>Analyze incident</span><span class="button-arrow">→</span></button><span class="action-note">Evidence-linked findings · No actions executed</span></div>
+          <div class="starter-note"><span class="starter-symbol">✳</span><p><strong>Read-only incident analysis</strong><br>Traceback treats all pasted records as untrusted evidence. Runtime policy enforcement stays with OpenShell or Sentry.</p></div>
+        </section>
+
+        <section class="results-column" aria-label="Investigation results" aria-live="polite">
+          <div class="section-topline"><div class="section-title"><span class="step-num">02</span><h2>Findings</h2></div><span id="result-status" class="result-status mono">AWAITING TRACE</span></div>
+          <div id="empty-state" class="empty-state"><div class="empty-graphic" aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><span>⌁</span><i class="orbit-point"></i></div><h3>Line up two records</h3><p>Add the agent&#39;s trace and the runtime&#39;s record, or open the sandbox escape case from the sidebar.</p><div class="empty-foot mono"><span class="live-dot"></span> READY WHEN YOU ARE</div></div>
+          <div id="loading-state" class="loading-state" hidden><div class="loading-mark">⌁</div><p>Following the evidence<span class="loading-dots">…</span></p><span class="mono">CHECKING EVENTS AND CLAIMS</span></div>
+          <div id="results" class="results" hidden></div>
+        </section>
+      </div>
+      <footer class="workspace-footer"><span>TRACEBACK / INVESTIGATE A RUN</span><span>BUILT FOR OPEN AI INFRASTRUCTURE <b>·</b> NEBIUS × NVIDIA</span></footer>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
