@@ -38,7 +38,6 @@ flowchart LR
   Sentry -.->|operator-provided activity text; format not assumed| RuntimeEvidence
   Findings -.->|recommendations only; no policy changes or quarantine| Agent
 
-  Moonshot[Project Moonshot Starter Kit evaluation] -.->|offline test cases and reports| Traceback
 ```
 
 ## Trust boundaries and source handling
@@ -89,4 +88,4 @@ flowchart LR
 
 ## Evaluation boundary
 
-Project Moonshot runs as an evaluation harness outside the incident request path. The local project checks exercise Traceback itself in deterministic demo mode. Starter Kit cookbook runs against the configured model endpoint test model outputs; they do not replace app-level checks for line citation validation, input handling, or secret scrubbing. Record model/configuration and rerun relevant checks after changes to prompts, models, or evidence handling.
+The local project checks (`npm run eval`) exercise Traceback itself in deterministic demo mode, with no model calls. `npm run eval:live` makes one real Token Factory request to confirm the live path.
